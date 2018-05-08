@@ -1,0 +1,239 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" /> 
+    <script src="assets/javascript/gif.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <script type="text/javascript"></script>
+</head>
+
+<body>
+
+    <div id="bg">
+    <div class="container-fluid">
+            <div class="card text-center">
+                   
+                    <div class="card-body">
+                      <h5 class="card-title">Add Your Favorte Soccer Player</h5>
+                      <p class="card-text">Add a soccer player name in the box below.</p>
+                      
+                    </div>
+                  </div>
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+<div id="playerBtn">
+    <!-- <button data-soccer="Messi">Messi</button>
+    <button data-soccer="Ronalo">Ronaldo</button>
+    <button data-soccer="Drogba">Drogba</button>
+    <button data-soccer="Lampard">Lampard</button>
+    <button data-soccer="Kaka">Kaka</button>
+    <button data-soccer="Hazard">Hazard</button> -->
+</div>
+</div>
+
+<!-- <div id="button-view"></div> -->
+
+<div class="col-md-6">
+    <form id="gif-form">
+            <label for="gif-input"></label>
+            <input type="text" id="gif-input">
+           
+            <input id="add-gif" type="submit" value="Add a Player">
+          </form>
+
+        </div>
+        </div>
+    </div>
+<div class="row">
+<div class="col-md-2"></div>
+<div class="col-md-8">
+          <div class="card">
+                <div class="card-body2">
+                    
+                        <div id="gifs-appear-here">
+
+                            </div>
+                </div>
+            </div>
+              </div> 
+              <div class="col-md-2"></div>     
+            </div>   
+            
+        </div>  
+
+
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            
+// var playerArray= [
+//     {name:"Drogba"},
+//     {name:"Lampard"},
+//     {name:"Kaka"},
+//     {name:"Hazard"},
+//     {name:"Messi"},
+//     {name:"Ronaldo"}
+// ]
+
+$(document).ready(function(){
+
+    var playerArray= [
+    {name:"Drogba"},
+    {name:"Lampard"},
+    {name:"Kaka"},
+    {name:"Hazard"},
+    {name:"Messi"},
+    {name:"Ronaldo"}
+]
+    for( i=0; i < playerArray.length; i++){
+
+        $("#playerBtn").append("<button data-soccer=" + playerArray[i].name +">" + playerArray[i].name + "</button>")
+
+    }
+
+    
+
+
+       $("button").on("click", function(){
+
+
+
+           var soccer =$(this).attr("data-soccer");
+
+           var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + soccer + "&api_key=RvzowGR1rM4IEP7tw7aHQfQWY8QEXRnr&limit=5"
+
+            // var queryURL= "https://api.giphy.com/v1/gifs/search?q=" + soccer + "&soccer+funny&g=&api_key=RvzowGR1rM4IEP7tw7aHQfQWY8QEXRnr";
+
+        $.ajax({
+        url: queryURL,
+         method: "GET"
+        }).then(function(response){
+            console.log(queryURL);
+            console.log(response);
+
+            var results = response.data;
+
+            for(var i=0; i < results.length; i++ ){
+
+                var soccerDiv = $("<div>");
+
+                var p = $("<p>").text("Rating:" + results[i].rating);
+
+                var soccerImage = $("<img>");
+
+                soccerImage.attr("src", results[i].images.fixed_height_still.url);
+
+                
+                
+
+                soccerDiv.append(p)
+                soccerDiv.append(soccerImage);
+
+                $("#gifs-appear-here").prepend(soccerDiv);
+
+                
+            }
+
+              var newImg = $("<img>");
+                newImg.attr("src", results[i].images.fixed_height_still.url);
+                 newImg.attr("data-still", results[i].images.fixed_height_still.url);
+                 newImg.attr("data-animate", results[i].images.fixed_height.url);
+                 newImg.attr("data-state", "still");
+                newDiv.append(newImg);
+
+
+        });
+
+ });
+        function renderButtons(){
+
+            // $("#playerBtn").empty();
+
+            for(var i=0; i < playerArray.length; i++){
+
+                var a = $("<button>");
+
+                a.addClass("gif-btn");
+
+                a.attr("data-soccer", soccer[i]);
+
+                a.text(soccer[i]);
+
+                $("#playerBtn").append(a);
+
+            }
+
+        }
+
+        $("#add-gif").on("click",function(event){
+            
+            event.preventDefault();
+
+            var soccerAddition = $("#gif-input").val().trim();
+
+            playerArray.push(soccerAddition);
+
+            renderButtons();
+        })
+
+        $(document).on("click", ".gif-btn", playerArray);
+
+
+      
+    })
+
+
+    function animateAnimalGif() {
+
+          
+  // The image state will be either "still" or "animated"
+  var state = $(this).find("img").attr("data-state");
+
+  // Make the Gif either animated or still depending on the "data-state" value
+  if (state === "still") {
+    $(this).find("img").attr("src", $(this).find("img").attr("data-animate"));
+    $(this).find("img").attr("data-state", "animate");
+  } else {
+    $(this).find("img").attr("src", $(this).find("img").attr("data-still"));
+    $(this).find("img").attr("data-state", "still");
+  }
+    }
+
+       
+
+       
+
+       
+        
+            
+
+          
+
+                
+
+
+
+
+
+
+
+
+
+
+
+        
+        </script>
+
+    </div>
+</body>
+</html>

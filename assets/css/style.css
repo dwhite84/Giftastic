@@ -1,0 +1,27 @@
+.card-body{
+    background: blue;
+    color: white;
+}
+
+body,html {
+    height: 100%;
+    
+} 
+
+ #bg {  
+     
+     background-image: url("http://ak7.picdn.net/shutterstock/videos/10746707/thumb/1.jpg");
+
+   
+    height: 100%;  
+
+    
+     background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+}   
+
+.card-body2{
+    
+
+}
